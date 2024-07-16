@@ -63,9 +63,6 @@ print(model.predict(new_data))
 with open('model.pkl', 'wb') as f:
     pickle.dump(model, f)
 
-with open('pipeline.pkl', 'wb') as f:
-    pickle.dump(full_pipeline, f)
-
 # Veritabanına kaydetme
 conn = sqlite3.connect('hepsiemlak.db')
 df.to_sql('emlak_verileri', conn, if_exists='replace', index=False)

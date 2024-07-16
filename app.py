@@ -9,9 +9,6 @@ app = Flask(__name__)
 with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
 
-with open('pipeline.pkl', 'rb') as f:
-    full_pipeline = pickle.load(f)
-
 def get_db_connection():
     conn = sqlite3.connect('hepsiemlak.db')
     conn.row_factory = sqlite3.Row
@@ -35,7 +32,7 @@ def get_emlak():
 def predict():
     data = request.json
     df = pd.DataFrame([data])
-    prepared_data = full_pipeline.transform(df)
+    prepared_data = model.named_steps["preparation"].transform(df) #named_steps önemli
     prediction = model.named_steps["model"].predict(prepared_data) #named_steps önemli
     return jsonify({'price': prediction[0]})
 
